@@ -1,5 +1,4 @@
-<?php
-require_once "../autoload.php";
+<?php require_once "../autoload.php";
 
 $app = new app;
 if ($app->isAuth()) $app->location();

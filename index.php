@@ -1,5 +1,4 @@
-<?php 
-require_once 'autoload.php';
+<?php require_once 'autoload.php';
 
 $app = new app;
 if (!$app->isAuth()) $app->location('/auth/login.php');
@@ -20,6 +19,9 @@ if (!$app->isAuth()) $app->location('/auth/login.php');
             <?=$_SESSION['token']?>
         </code>
     </h3>
+    <h5>
+        <a href="/auth/logout.php">Выйти</a>
+    </h5>
 </body>
 
 </html>
