@@ -19,8 +19,22 @@ class app{
 		header("Location: {$url}");
     }
     
-    public function formLogin(array $data): void {
-        print_r($data);
+    public function formLogin(array $data) {
+        $checkPassword = $this->db->checkPassword(
+            $data['auth-phone'], 
+            $data['auth-password']
+        ); 
+        if ($checkPassword['status'] == false) {
+            $this->sendResponse('422 Unprocessable entity', [
+                'error' => $checkPassword['message']
+            ]);
+        } else {
+            $_SESSION['phone'] = $data['auth-phone'];
+            $_SESSION['auth'] = true;
+            $this->sendResponse('200 OK', [
+                'token' => $checkPassword['message']
+            ]);
+        }
     }
 
     public function formRegister(array $data): void {
@@ -35,6 +49,8 @@ class app{
                 'error' => $addUser['message']
             ]);
         } else {
+            $_SESSION['phone'] = $data['auth-phone'];
+            $_SESSION['auth'] = true;
             $this->sendResponse('201 Created', [
                 'id' => $addUser['message']
             ]);

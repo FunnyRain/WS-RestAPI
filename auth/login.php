@@ -3,8 +3,7 @@ require_once "../autoload.php";
 
 $app = new app;
 if ($app->isAuth()) $app->location();
-
-// $app->
+if (!empty($_POST)) $app->formLogin($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
