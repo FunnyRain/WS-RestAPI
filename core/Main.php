@@ -18,15 +18,18 @@ class app{
     
     public function formLogin(array $data): void {
         print_r($data);
-        // $first_name = 
-        // if (isset())
     }
 
     public function formRegister(array $data): void {
-        // print_r($data);
         $this->location('/test.html');
-        // $first_name = 
-        // if (isset())
+        $this->sendResponse('201 Created', [
+            'error' => 'Bad Request'
+        ]);
+    }
+
+    public function sendResponse(string $response = "200 OK", array $content = []) {
+        header("HTTP/1.1 {$response}");
+        if (!empty($content)) echo json_encode($content);
     }
 }
 

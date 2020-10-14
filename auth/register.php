@@ -4,6 +4,7 @@ require_once "../autoload.php";
 $app = new app;
 if ($app->isAuth()) $app->location();
 if (!empty($_POST)) $app->formRegister($_POST);
+print_r($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
