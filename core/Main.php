@@ -25,15 +25,23 @@ class app{
             $data['auth-password']
         ); 
         if ($checkPassword['status'] == false) {
-            $this->sendResponse('422 Unprocessable entity', [
-                'error' => $checkPassword['message']
-            ]);
+            if (isset($checkPassword['code']) and $checkPassword['code'] == 404) {
+                $this->sendResponse('404 Not found', [
+                    'login' => 'Incorrect login or password'
+                ]);
+            } else {
+                $this->sendResponse('422 Unprocessable entity', [
+                    'error' => $checkPassword['message']
+                ]);
+            }
         } else {
             $_SESSION['phone'] = $data['auth-phone'];
             $_SESSION['auth'] = true;
+            $_SESSION['token'] = $checkPassword['message'];
             $this->sendResponse('200 OK', [
                 'token' => $checkPassword['message']
             ]);
+            $this->location();
         }
     }
 
@@ -49,16 +57,14 @@ class app{
                 'error' => $addUser['message']
             ]);
         } else {
-            $_SESSION['phone'] = $data['auth-phone'];
-            $_SESSION['auth'] = true;
+            // $_SESSION['phone'] = $data['auth-phone'];
+            // $_SESSION['auth'] = true;
             $this->sendResponse('201 Created', [
                 'id' => $addUser['message']
             ]);
+            echo '<script> alert("авторизуйтесь для продолжения") </script>';
+            $this->location('/auth/login.php');
         }
-        // $this->location('/test.html');
-        // $this->sendResponse('201 Created', [
-        //     'error' => 'Bad Request'
-        // ]);
     }
 
     public function sendResponse(string $response = "200 OK", array $content = []) {

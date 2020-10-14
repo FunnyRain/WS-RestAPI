@@ -65,7 +65,7 @@ class db {
                 $generateToken
             );
             return ['status' => true, 'message' => $generateToken];
-        } else return ['status' => false, 'message' => 'неправильный пароль'];
+        } else return ['status' => false, 'code' => 404, 'message' => 'неправильный пароль'];
     }
 
     public function addUser(string $firstname, string $lastname, string $phone, string $password) {

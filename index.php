@@ -13,13 +13,13 @@ if (!$app->isAuth()) $app->location('/auth/login.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная</title>
 </head>
-
+<style> body { background-color: #131513; color: #fff; } </style>
 <body>
-    <form method="post" action="index.php">
-        <input type="text" pattern="\d*" name="auth-phone" placeholder="799999999999">
-        <input type="password" name="auth-password" placeholder="******">
-        <button type="submit">Войти</button>
-    </form>
+    <h3>
+        Ваш токен для запросов: <code style="color: #fff; background-color: #2666f9; border-radius: 15px; padding: 4px; font-size: 95%;">
+            <?=$_SESSION['token']?>
+        </code>
+    </h3>
 </body>
 
 </html>
