@@ -4,8 +4,11 @@ session_start();
 date_default_timezone_set('Europe/Moscow');
 
 class app{
+
+    private $db;
+
     public function __construct() {
-        
+        $this->db = new db;
     }
 
     public function isAuth() : bool {
@@ -21,10 +24,25 @@ class app{
     }
 
     public function formRegister(array $data): void {
-        $this->location('/test.html');
-        $this->sendResponse('201 Created', [
-            'error' => 'Bad Request'
-        ]);
+        $addUser = $this->db->addUser(
+            $data['auth-firstname'], 
+            $data['auth-lastname'], 
+            $data['auth-phone'], 
+            $data['auth-password']
+        );
+        if ($addUser['status'] == false) {
+            $this->sendResponse('422 Unprocessable entity', [
+                'error' => $addUser['message']
+            ]);
+        } else {
+            $this->sendResponse('201 Created', [
+                'id' => $addUser['message']
+            ]);
+        }
+        // $this->location('/test.html');
+        // $this->sendResponse('201 Created', [
+        //     'error' => 'Bad Request'
+        // ]);
     }
 
     public function sendResponse(string $response = "200 OK", array $content = []) {

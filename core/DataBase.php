@@ -30,10 +30,42 @@ class db {
         );");
     }
 
+    public function existsPhone(string $phone): bool {
+        if(!$this->db->query("SELECT * FROM users WHERE phone = '{$phone}'")->fetchArray(SQLITE3_ASSOC)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function addUser(string $firstname, string $lastname, string $phone, string $password) {
-        if (empty($firstname) or empty($lastname) or empty($phone) or empty($password)) exit;
+        if (empty($firstname)) return ['status' => false, 'message' => 'пустая строка firstname'];
+        if (empty($lastname)) return ['status' => false, 'message' => 'пустая строка lastname'];
+        if (empty($phone)) return ['status' => false, 'message' => 'пустая строка phone'];
+        if (strlen($phone) >= 12) return ['status' => false, 'message' => 'длина номера должна быть меньше 11 символов!'];
+        if (empty($password)) return ['status' => false, 'message' => 'пустая строка password'];
 
+        if ($this->existsPhone($phone)) return ['status' => false, 'message' => 'аккаунт с таким номером уже существует'];
 
+        $this->db->query("INSERT INTO users (
+            'firstname', 
+            'lastname',
+            'phone',
+            'password'
+        ) VALUES (
+            '{$firstname}',
+            '{$lastname}',
+            '{$phone}',
+            '{$password}'
+        );");
+        $id = $this->db->query("SELECT owner_id FROM users WHERE 
+            firstname='{$firstname}' AND 
+            lastname='{$lastname}' AND 
+            phone='{$phone}' AND 
+            password='{$password}'
+        ")->fetchArray();
+        $this->db->close();
+        return !empty($id) ? ['status' => true, 'message' => $id['owner_id']] : ['status' => false, 'message' => 'ошибка'];
     }
 }
 

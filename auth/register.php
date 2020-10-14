@@ -4,7 +4,6 @@ require_once "../autoload.php";
 $app = new app;
 if ($app->isAuth()) $app->location();
 if (!empty($_POST)) $app->formRegister($_POST);
-print_r($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +13,7 @@ print_r($_POST);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
 </head>
-
+<style> body { background-color: #131513; color: #fff; } </style>
 <body>
     <form method="post" action="register.php">
         <input type="text" name="auth-firstname" placeholder="Имя"><br>

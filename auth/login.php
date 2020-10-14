@@ -14,7 +14,7 @@ if ($app->isAuth()) $app->location();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
 </head>
-
+<style> body { background-color: #131513; color: #fff; } </style>
 <body>
     <form method="post" action="login.php">
         <input type="text" pattern="\d*" name="auth-phone" placeholder="+799999999999"><br>
