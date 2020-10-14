@@ -2,7 +2,12 @@
 
 $app = new app;
 if (!$app->isAuth()) $app->location('/auth/login.php');
+// if (!empty($_POST)) print_r($_FILES);
 
+/**
+ *! Остановился на ЗАГРУЗКЕ ФОТОГРАФИЙ
+ *! НЕ РАБОТАЕТ ЗАГРУЗКА И НЕ ДАМПИТСЯ
+ */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +27,11 @@ if (!$app->isAuth()) $app->location('/auth/login.php');
     <h5>
         <a href="/auth/logout.php">Выйти</a>
     </h5>
+    <form method="post" action="index.php" enctype="multipart/form-data">
+        <h4>Загрузка фотографии</h4>
+        <input type="file" name="uploadImage"><br>
+        <button type="submit">Загрузить</button>
+    </form>
 </body>
 
 </html>

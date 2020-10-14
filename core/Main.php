@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+ini_set('file_uploads', 1);
 date_default_timezone_set('Europe/Moscow');
 
 class app{
@@ -17,6 +18,20 @@ class app{
 
     public function location(string $url = '/'): void {
 		header("Location: {$url}");
+    }
+
+    public function uploadImage($data) {
+        // print_r($data);
+        // $target_file = "../photos/temp/" . basename($_FILES["fileToUpload"]["name"]);
+        // $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        // print_r($data);
+        // print_r($imageFileType);
+        // $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        // if($check !== false) {
+        //     echo "File is an image - " . $check["mime"] . ".";
+        // } else {
+        //     echo "File is not an image.";
+        // }
     }
     
     public function formLogin(array $data) {
