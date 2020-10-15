@@ -3,7 +3,9 @@
 $app = new app;
 if (!$app->isAuth()) $app->location('/auth/login.php');
 // if (!empty($_POST)) print_r($_FILES);
-
+//print_r($_FILES);
+// $app->uploadImage($_FILES, $_POST);
+print_r($_FILES['userfile']);
 /**
  *! Остановился на ЗАГРУЗКЕ ФОТОГРАФИЙ
  *! НЕ РАБОТАЕТ ЗАГРУЗКА И НЕ ДАМПИТСЯ
@@ -29,9 +31,15 @@ if (!$app->isAuth()) $app->location('/auth/login.php');
     </h5>
     <form method="post" action="index.php" enctype="multipart/form-data">
         <h4>Загрузка фотографии</h4>
-        <input type="file" name="uploadImage"><br>
+        <input type="file" name="userfile"><br>
         <button type="submit">Загрузить</button>
     </form>
+
+    <form action="http://localhost:8080/photos/api/photo" method="post" enctype="multipart/form-data">
+  Select image to upload:
+  <input type="file" name="fileToUpload" id="fileToUpload">
+  <input type="submit" value="Upload Image" name="submit">
+</form>
 </body>
 
 </html>

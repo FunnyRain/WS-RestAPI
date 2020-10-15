@@ -2,16 +2,16 @@
 
 class db {
 
-    private $db; 
+    public $db; 
 
     public function __construct() {
-        if (!file_exists('../base.sql')) $this->createTable();
+        if (!file_exists(config::get['db_path'].'/'.config::get['db_name'])) $this->createTable();
 
-        $this->db = new SQLite3('../base.sql');
+        $this->db = new SQLite3(config::get['db_path'].'/'.config::get['db_name']);
     }
 
     public function createTable() {
-        $db = new SQLite3('../base.sql');
+        $db = new SQLite3(config::get['db_path'].'/'.config::get['db_name']);
         //! users
         $db->exec("CREATE TABLE users (
             owner_id INTEGER PRIMARY KEY, 
@@ -45,9 +45,10 @@ class db {
         $this->db->close();
     }
 
-    public function get(string $phone, string $var = "*", string $base = "users") {
+    public function get(string $phone, string $var = "*", string $base = "users", $d = null) {
         if (empty($phone) or empty($var) or empty($base)) exit;
-        return $this->db->query("SELECT {$var} FROM users WHERE phone = '{$phone}'")->fetchArray()[$var];
+    if ($d !== null) return $this->db->query("SELECT {$var} FROM {$base} WHERE {$d}")->fetchArray()[$var];
+        return $this->db->query("SELECT {$var} FROM {$base} WHERE phone = '{$phone}'")->fetchArray()[$var];
     }
 
     public function checkPassword(string $phone, string $password) {
@@ -78,7 +79,7 @@ class db {
 
         if ($this->existsPhone($phone)) return ['status' => false, 'message' => 'аккаунт с таким номером уже существует'];
 
-        $this->db->query("INSERT INTO users (
+        $this->db->exec("INSERT INTO users (
             'firstname', 
             'lastname',
             'phone',
@@ -97,6 +98,32 @@ class db {
         ")->fetchArray();
         $this->db->close();
         return !empty($id) ? ['status' => true, 'message' => $id['owner_id']] : ['status' => false, 'message' => 'ошибка'];
+    }
+
+    public function addPhoto(string $phone, string $file_name, string $url) {
+        $owner_id = $this->get($phone, 'owner_id');
+        print_r($owner_id);
+        $owner_id = !empty($owner_id) ? $owner_id : 100000;
+        $this->db->exec("INSERT INTO photos (
+            'owner_id', 
+            'photo',
+            'url',
+            'users'
+        ) VALUES (
+            '{$owner_id}',
+            '{$file_name}',
+            '{$url}',
+            ''
+        );
+        ");
+        $photo_id = $this->get($phone, 'photo_id', 'photos', "owner_id='{$owner_id}'");
+        $photo_id = !empty($photo_id) ? $photo_id : mt_rand(1,10000000);
+        $this->db->close();
+        return [
+            'id' => $photo_id,
+            'name' => $file_name,
+            'url' => $url  
+        ];
     }
 }
 
