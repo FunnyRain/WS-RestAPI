@@ -21,8 +21,19 @@ class app{
 		header("Location: {$url}");
     }
 
-    public function uploadImage($FILES, $POST) {
-        
+    public function getPhotosByUser(string $phone): string {
+        $owner_id = $this->db->get($phone, 'owner_id');
+        $owner_id = !empty($owner_id) ? $owner_id : 100000;
+        $result = $this->db->db->query("SELECT url FROM photos WHERE owner_id='{$owner_id}'");
+        $photos = [];
+        while($res = $result->fetchArray(SQLITE3_ASSOC)){ 
+            $photos[] = $res['url'];
+        }
+        $return = "<h3>Ваши загруженные фотографии</h3>\n";
+        foreach ($photos as $imgs) {
+            $return .= "\t\t<img src='{$imgs}' alt='image' style='width:250px;height:150px'/>\n";
+        }
+        return $return;
     }
     
     public function formLogin(array $data) {

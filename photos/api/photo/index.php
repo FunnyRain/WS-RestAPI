@@ -9,7 +9,6 @@ $app = new app;
 if (strtolower($accept['REQUEST_METHOD']) !== 'post') exit;
 if (!isset($_FILES)) exit;
 
-print_r($_SESSION);
 $get_name_image = explode('.', $_FILES["fileToUpload"]["name"]);
 $type = $get_name_image[count($get_name_image) - 1];
 if (in_array($type, ['png','jpg','jpeg'])) {
@@ -39,8 +38,8 @@ if (in_array($type, ['png','jpg','jpeg'])) {
 
         $db = new db;
         $addPhoto = $db->addPhoto($_SESSION['phone'], $name, "http://localhost:8080/photos/temp/{$name}");
+        $app->location();
         $app->sendResponse('201 Created', $addPhoto);
-        $app->location('http://localhost:8080/');
     } else {
         $app->sendResponse('422 Unprocessable entity', [ 'message' => 'Photo upload error' ]);
         exit;

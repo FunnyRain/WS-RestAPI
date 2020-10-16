@@ -2,10 +2,6 @@
 
 $app = new app;
 if (!$app->isAuth()) $app->location('/auth/login.php');
-// if (!empty($_POST)) print_r($_FILES);
-//print_r($_FILES);
-// $app->uploadImage($_FILES, $_POST);
-print_r($_FILES['userfile']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,10 +23,13 @@ print_r($_FILES['userfile']);
     </h5>
 
     <form action="http://localhost:8080/photos/api/photo" method="post" enctype="multipart/form-data">
-  Select image to upload:
-  <input type="file" name="fileToUpload" id="fileToUpload">
-  <input type="submit" value="Upload Image" name="submit">
-</form>
+        Выберите картинку для загрузки:<br>
+        <input type="file" name="fileToUpload"><br>
+        <input type="submit" value="Загрузить">
+    </form>
+
+    <!-- Фотографии пользователя -->
+    <?= $app->getPhotosByUser($_SESSION['phone']) ?>
 </body>
 
 </html>

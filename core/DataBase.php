@@ -102,7 +102,6 @@ class db {
 
     public function addPhoto(string $phone, string $file_name, string $url) {
         $owner_id = $this->get($phone, 'owner_id');
-        print_r($owner_id);
         $owner_id = !empty($owner_id) ? $owner_id : 100000;
         $this->db->exec("INSERT INTO photos (
             'owner_id', 
