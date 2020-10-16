@@ -115,7 +115,7 @@ class db {
             ''
         );
         ");
-        $photo_id = $this->get($phone, 'photo_id', 'photos', "owner_id='{$owner_id}'");
+        $photo_id = $this->get($phone, 'photo_id', 'photos', "photo='{$file_name}'");
         $photo_id = !empty($photo_id) ? $photo_id : mt_rand(1,10000000);
         $this->db->close();
         return [

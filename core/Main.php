@@ -29,6 +29,7 @@ class app{
         while($res = $result->fetchArray(SQLITE3_ASSOC)){ 
             $photos[] = $res['url'];
         }
+        if (empty($photos)) return "<h3>Вы еще ничего не загружали</h3>";
         $return = "<h3>Ваши загруженные фотографии</h3>\n";
         foreach ($photos as $imgs) {
             $return .= "\t\t<img src='{$imgs}' alt='image' style='width:250px;height:150px'/>\n";

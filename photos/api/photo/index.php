@@ -37,8 +37,7 @@ if (in_array($type, ['png','jpg','jpeg'])) {
         if (empty($name)) return $app->sendResponse('422 Unprocessable entity', [ 'message' => 'File is not image' ]);
 
         $db = new db;
-        $addPhoto = $db->addPhoto($_SESSION['phone'], $name, "http://localhost:8080/photos/temp/{$name}");
-        $app->location();
+        $addPhoto = $db->addPhoto($_SESSION['phone'], $name, "http://" . $accept['HTTP_HOST'] . "/photos/temp/{$name}");
         $app->sendResponse('201 Created', $addPhoto);
     } else {
         $app->sendResponse('422 Unprocessable entity', [ 'message' => 'Photo upload error' ]);

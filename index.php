@@ -22,7 +22,7 @@ if (!$app->isAuth()) $app->location('/auth/login.php');
         <a href="/auth/logout.php">Выйти</a>
     </h5>
 
-    <form action="http://localhost:8080/photos/api/photo" method="post" enctype="multipart/form-data">
+    <form action="/photos/api/photo" method="post" enctype="multipart/form-data">
         Выберите картинку для загрузки:<br>
         <input type="file" name="fileToUpload"><br>
         <input type="submit" value="Загрузить">
